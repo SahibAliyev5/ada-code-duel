@@ -1,0 +1,23 @@
+services:
+  app:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      PORT: "3000"
+      JUDGE_URL: "http://host.docker.internal:4001"
+      JUDGE_SECRET: "${JUDGE_SECRET:?Set JUDGE_SECRET in .env}"
+      ORGANIZER_SECRET: "${ORGANIZER_SECRET:?Set ORGANIZER_SECRET in .env}"
+      CLUB_FAIR_MODE: "true"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    volumes:
+      - ./problems:/app/problems:ro
+    read_only: true
+    tmpfs:
+      - /tmp
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped

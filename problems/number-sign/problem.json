@@ -1,0 +1,20 @@
+{
+  "id": "number-sign",
+  "title": "Positive, Negative, or Zero",
+  "difficulty": "very-easy",
+  "estimatedMinutes": 1,
+  "timeLimitMs": 2000,
+  "memoryLimitMb": 256,
+  "enabled": true,
+  "tags": [
+    "beginner"
+  ],
+  "samples": [
+    "sample1"
+  ],
+  "supportedLanguages": [
+    "cpp17",
+    "python3",
+    "java17"
+  ]
+}

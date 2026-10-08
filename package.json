@@ -1,0 +1,47 @@
+{
+  "name": "ada-code-race",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "concurrently -k \"tsx watch backend/src/server.ts\" \"vite --host 0.0.0.0\"",
+    "build": "tsc --noEmit && vite build",
+    "start": "tsx backend/src/server.ts",
+    "judge": "tsx judge/src/service.ts",
+    "test": "tsx --test tests/*.test.ts",
+    "test:e2e": "playwright test",
+    "test:judge": "tsx --test tests/docker/*.test.ts",
+    "problems:list": "tsx scripts/problems.ts list",
+    "problems:validate": "tsx scripts/problems.ts validate",
+    "problems:new": "tsx scripts/problems.ts new",
+    "test:ui": "playwright test --config=playwright.ui.config.ts",
+    "format": "prettier --write frontend/src backend/src shared judge/src scripts tests *.ts"
+  },
+  "dependencies": {
+    "@monaco-editor/react": "^4.7.0",
+    "dotenv": "^16.4.7",
+    "express": "^5.1.0",
+    "lucide-react": "^0.468.0",
+    "monaco-editor": "^0.52.2",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-markdown": "^10.1.0",
+    "socket.io": "^4.8.1",
+    "socket.io-client": "^4.8.1",
+    "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.51.1",
+    "@tailwindcss/vite": "^4.0.9",
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.13.10",
+    "@types/react": "^19.0.10",
+    "@types/react-dom": "^19.0.4",
+    "@vitejs/plugin-react": "^4.3.4",
+    "concurrently": "^9.1.2",
+    "prettier": "^3.9.9",
+    "tailwindcss": "^4.0.9",
+    "tsx": "^4.19.3",
+    "typescript": "^5.7.3",
+    "vite": "^6.2.0"
+  }
+}
