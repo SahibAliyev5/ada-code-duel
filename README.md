@@ -13,7 +13,9 @@ A local, offline-capable 1v1 programming arena for the ADA University Competitiv
 
 ## Prerequisites
 
-Install Node.js 22+, npm, and Docker Engine (Linux) or Docker Desktop with **Linux containers** (Windows). On Windows, enable WSL2 for Docker Desktop. Docker must be running and your account must be able to run `docker`.
+Install Node.js 22+, npm, and Docker Engine (Linux) or Docker Desktop (macOS or Windows) with **Linux containers**. On Windows, enable WSL2 for Docker Desktop. Docker must be running and your account must be able to run `docker`.
+
+On macOS with Homebrew, install Node.js with `brew install node@22`. If `node` is unavailable afterward, add `/opt/homebrew/opt/node@22/bin` (Apple Silicon) or `/usr/local/opt/node@22/bin` (Intel) to your shell's `PATH`. Start Docker Desktop before building the sandbox. Use the Linux `cp` command below to create `.env`.
 
 Install dependencies and build the sandbox **before the event**, while internet is available. After this preparation and problem validation, the application needs only the local network. No CDN, external fonts, remote editor workers, or online judge APIs are used at runtime.
 
@@ -164,13 +166,15 @@ Backend winner-ordering unit tests inject a controllable judge to test race cond
 
 `test:ui` uses a separate test-only server on loopback port 3100 with controlled verdicts. It checks the actual frontend and Socket.IO room flow, private drafts, refresh recovery, language switching, verdict rendering, winner screens, rematches, identity clearing and absence of outbound browser requests. It does **not** evaluate programs or validate the real judge. The production server has no switch for simulated judging.
 
-Verified during implementation: production TypeScript/Vite build, backend/API/registry test suite, and both Playwright UI-flow tests. Docker-dependent checks below remain pending on a Docker-equipped host.
+Verified on macOS with Docker Desktop on October 8, 2026: production TypeScript/Vite build, all 15 backend/API/registry tests, all three Playwright UI tests, and all 26 problem reference solutions in C++17, Python 3 and Java 17 through the real Docker judge. Docker checks also passed for wrong answers, compilation/runtime errors, timeout/memory/output limits, network isolation, absence of host files and secrets, and zero effective Linux capabilities in submitted programs.
 
 Manual event rehearsal: disconnect internet (keep LAN connected), load from both laptops, try all three languages, run samples, submit wrong/correct programs, refresh one browser during a match, check the countdown and private results, play again, and reset for new visitors. Confirm no outbound requests in browser developer tools. LAN connectivity depends on the event network and must be rehearsed there.
 
+The real-judge Playwright race also passed: two browsers joined a room, received wrong-answer feedback, accepted a correct solution, showed the same winner, rematched and reset for new players.
+
 ### Current verification limitations
 
-This repository was authored on a machine without Docker. Problem definitions, reference solutions and sandbox tests are provided, but **the full reference library and actual Docker isolation must be validated on a Docker-equipped host before use**. No readiness certificates are fabricated or checked in. The app will initially report zero ready problems until validation succeeds. Real judging, Docker Compose, browser racing with real execution, offline rehearsal and multi-laptop LAN connectivity need that host/event setup.
+Readiness certificates are generated locally and are not checked in. A fresh checkout reports zero ready problems until `npm run problems:validate` succeeds. Revalidate on each event host. Docker Compose, disconnected-internet rehearsal and multi-laptop LAN connectivity still need testing in the intended event setup.
 
 ## Structure
 

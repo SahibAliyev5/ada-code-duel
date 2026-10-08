@@ -21,7 +21,7 @@ def execute(command, timeout, compile=False):
     err_path='/work/compile.err' if compile else '/work/run.err'
     with open(out_path,'wb') as out, open(err_path,'wb') as err:
         p=subprocess.Popen(command, stdin=subprocess.PIPE, stdout=out, stderr=err,
-            cwd='/work', env={'PATH':'/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin','HOME':'/work','LANG':'C.UTF-8'},
+            cwd='/work', env={'PATH':os.environ.get('PATH', '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'),'HOME':'/work','LANG':'C.UTF-8'},
             user=1001, group=1001, extra_groups=[], start_new_session=True, preexec_fn=limits)
         try:
             p.communicate(b'' if compile else data['input'].encode(), timeout=timeout)

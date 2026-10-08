@@ -74,6 +74,8 @@ export async function execute(job: Job, test: TestCase): Promise<Execution> {
         "SETUID",
         "--cap-add",
         "SETGID",
+        "--cap-add",
+        "KILL",
         "--security-opt",
         "no-new-privileges",
         "--pids-limit",

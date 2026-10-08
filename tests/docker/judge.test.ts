@@ -47,7 +47,7 @@ test("wrong output, compilation error, runtime error, loops, output and memory l
   }
 });
 test("sandbox cannot reach network or host files, and has no socket or secrets", async () => {
-  const source = `import os,socket\nassert not os.path.exists('/var/run/docker.sock')\nassert not os.path.exists('/app/.env')\nassert not os.environ.get('JUDGE_SECRET')\ns=socket.socket();s.settimeout(.1)\ntry:\n s.connect(('1.1.1.1',80));print('network-access')\nexcept OSError:\n print('isolated')\n`;
+  const source = `import os,socket\nwith open('/proc/self/status') as f: caps=[line.split()[1] for line in f if line.startswith('CapEff:')][0]\nassert int(caps,16)==0\nassert not os.path.exists('/var/run/docker.sock')\nassert not os.path.exists('/app/.env')\nassert not os.environ.get('JUDGE_SECRET')\ns=socket.socket();s.settimeout(.1)\ntry:\n s.connect(('1.1.1.1',80));print('network-access')\nexcept OSError:\n print('isolated')\n`;
   const v = await evaluate({
     ...base,
     source,
